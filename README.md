@@ -33,23 +33,37 @@ mkdir SchedularUI
 # Add API and Class Libraries to Schedular-Repository solution
 
 dotnet sln add UserAPI/UserAPI.csproj
+
 dotnet sln add HistoryAPI/HistoryAPI.csproj
+
 dotnet sln add ProjectAPI/ProjectAPI.csproj
+
 dotnet sln add Models/Models.csproj
+
 dotnet sln add Migrations/Migrations.csproj
 
 # Add classlib reference to individual project
 
 cd UserAPI/
+
 dotnet add reference ../Models/Models.csproj
+
 dotnet add reference ../Migrations/Migrations.csproj
+
 cd ..
+
 cd ProjectAPI/
+
 dotnet add reference ../Migrations/Migrations.csproj
+
 dotnet add reference ../Models/Models.csproj
+
 cd ..
+
 cd HistoryAPI/
+
 dotnet add reference ../Migrations/Migrations.csproj
+
 dotnet add reference ../Models/Models.csproj
 
 # Restoring Projects
