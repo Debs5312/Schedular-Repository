@@ -36,7 +36,7 @@ dotnet sln add UserAPI/UserAPI.csproj
 
 dotnet sln add HistoryAPI/HistoryAPI.csproj
 
-dotnet sln add ProjectAPI/ProjectAPI.csproj
+dotnet sln add ProcessAPI/ProcessAPI.csproj
 
 dotnet sln add Models/Models.csproj
 
