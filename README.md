@@ -8,8 +8,8 @@ add a new solution file --> dotnet new sln
 
 # make directory and create a new webapi project
 
-mkdir ProjectAPI
-cd ProjectAPI/
+mkdir ProcessAPI
+cd ProcessAPI/
 dotnet new webapi
 
 mkdir HistoryAPI
