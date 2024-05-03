@@ -31,7 +31,7 @@ namespace ProcessAPI.Repository
             throw new NotImplementedException();
         }
 
-        public Task<Process> getSingleProcess(Guid id)
+        public Task<Process> getSingleProcess(string id)
         {
             throw new NotImplementedException();
         }
