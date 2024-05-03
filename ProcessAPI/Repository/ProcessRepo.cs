@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using Models.API.ProcessAPI;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using ProcessAPI.DBConnections;
 
@@ -9,16 +10,27 @@ namespace ProcessAPI.Repository
     {
         private readonly IMongoCollection<Process> _playlistCollection;
 
+
         public ProcessRepo(IOptions<MongoDBSetting> mongoDBSettings)
         {
+
             MongoClient client = new MongoClient(mongoDBSettings.Value.ConnectionURI);
             IMongoDatabase database = client.GetDatabase(mongoDBSettings.Value.DatabaseName);
             _playlistCollection = database.GetCollection<Process>(mongoDBSettings.Value.CollectionName);
         }
 
-        public Task<ProcessDTO> AddProcess(ProcessDTO process)
+        public async Task AddProcess(Process process)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _playlistCollection.InsertOneAsync(process);
+                return;
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+
         }
 
         public Task<int> deleteProcess(string id)
@@ -26,17 +38,18 @@ namespace ProcessAPI.Repository
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Process>> getAllProcess()
+        public async Task<List<Process>> getAllProcess()
         {
-            throw new NotImplementedException();
+            return await _playlistCollection.Find(new BsonDocument()).ToListAsync();
         }
 
-        public Task<Process> getSingleProcess(string id)
+        public async Task<Process> getSingleProcess(string id)
         {
-            throw new NotImplementedException();
+            FilterDefinition<Process> filter = Builders<Process>.Filter.Eq("Id", id);
+            return await _playlistCollection.Find(filter).Limit(1).SingleAsync();
         }
 
-        public Task<Process> updateProcess(ProcessDTO process, string id)
+        public Task updateProcess(Process process, string id)
         {
             throw new NotImplementedException();
         }
