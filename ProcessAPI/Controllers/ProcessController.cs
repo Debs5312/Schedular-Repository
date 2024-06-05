@@ -18,7 +18,7 @@ namespace ProcessAPI.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -36,10 +36,9 @@ namespace ProcessAPI.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost("AddProcess")]
         public async Task<IActionResult> AddProcess([FromBody] ProcessDTO processDTO)
         {
-
             Process process = new Process();
             _mapper.Map(processDTO, process);
             try

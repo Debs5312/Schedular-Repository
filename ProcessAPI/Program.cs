@@ -27,9 +27,9 @@ builder.Services.AddCors(opt =>
     });
 });
 
-// Register AutoMapper service
+// // Register AutoMapper service
 
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
+// builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 // Setting up middleware pipeline for http request-response mapping.
 
