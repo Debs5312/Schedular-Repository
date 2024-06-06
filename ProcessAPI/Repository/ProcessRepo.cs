@@ -49,9 +49,27 @@ namespace ProcessAPI.Repository
             return await _playlistCollection.Find(filter).Limit(1).SingleAsync();
         }
 
-        public Task updateProcess(Process process, string id)
+        public async Task<long> updateProcess(Process process, string id)
         {
-            throw new NotImplementedException();
+            // var updatedProcess = await _playlistCollection.FindOneAndUpdateAsync(
+            //     Builders<Process>.Filter.Where(rec => rec.Id == id),
+            //     Builders<Process>.Update.Set(rec => rec, process),
+            //     options: new FindOneAndUpdateOptions<Process>
+            //     {
+            //         // Do this to get the record AFTER the updates are applied
+            //         ReturnDocument = ReturnDocument.After 
+            //     }
+            // ).ConfigureAwait(false);
+
+            // return updatedProcess;
+
+            var result = await _playlistCollection.UpdateOneAsync(
+                Builders<Process>.Filter.Eq("Id", id),
+                Builders<Process>.Update.Set(rec => rec, process)
+            );
+
+            if(result.IsAcknowledged) return result.ModifiedCount;
+            else return 0;
         }
 
     }

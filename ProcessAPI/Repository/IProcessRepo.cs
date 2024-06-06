@@ -7,7 +7,7 @@ namespace ProcessAPI.Repository
         Task<List<Process>> getAllProcess();
         Task<Process> getSingleProcess(string id);
         Task AddProcess(Process process);
-        Task updateProcess(Process process, string id);
+        Task<long> updateProcess(Process process, string id);
         Task<int> deleteProcess(string id);
     }
 }
