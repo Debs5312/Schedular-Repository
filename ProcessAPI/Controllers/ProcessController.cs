@@ -60,6 +60,9 @@ namespace ProcessAPI.Controllers
             try
             {
                 Process process = await _processRepo.getSingleProcess(id);
+                if(process == null) {
+                    return StatusCode(404, "ID is invalid");
+                }
                 ProcessDTO processDTO = _mapper.Map<ProcessDTO>(process);
                 return Ok(processDTO);
             }
@@ -80,6 +83,7 @@ namespace ProcessAPI.Controllers
                 if(process == null) {
                     return StatusCode(404, "ID is invalid");
                 }
+                processToUpdate.Id = process.Id;
                 long updatedCount = await _processRepo.updateProcess(processToUpdate, id);
                 if(updatedCount == 0)
                 {
@@ -87,6 +91,30 @@ namespace ProcessAPI.Controllers
                 }
 
                 return Ok("Updated Document");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                Process process = await _processRepo.getSingleProcess(id);
+                if(process == null) {
+                    return StatusCode(404, "ID is invalid");
+                }
+                bool deleteUpdate = await _processRepo.deleteProcess(id);
+                if(!deleteUpdate)
+                {
+                    return StatusCode(500, "Problem while deleting data from Database. Please check DB connection.");
+                }
+
+                return Ok("Document Deleted");
             }
             catch (Exception ex)
             {

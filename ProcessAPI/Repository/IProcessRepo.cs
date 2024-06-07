@@ -8,6 +8,6 @@ namespace ProcessAPI.Repository
         Task<Process> getSingleProcess(string id);
         Task AddProcess(Process process);
         Task<long> updateProcess(Process process, string id);
-        Task<int> deleteProcess(string id);
+        Task<bool> deleteProcess(string id);
     }
 }

@@ -33,9 +33,11 @@ namespace ProcessAPI.Repository
 
         }
 
-        public Task<int> deleteProcess(string id)
+        public async Task<bool> deleteProcess(string id)
         {
-            throw new NotImplementedException();
+            var deletedRowCount = await _playlistCollection.DeleteOneAsync(item => item.Id == id);
+            if(deletedRowCount.IsAcknowledged) return deletedRowCount.DeletedCount == 1;
+            return false;
         }
 
         public async Task<List<Process>> getAllProcess()
@@ -46,7 +48,7 @@ namespace ProcessAPI.Repository
         public async Task<Process> getSingleProcess(string id)
         {
             FilterDefinition<Process> filter = Builders<Process>.Filter.Eq("Id", id);
-            return await _playlistCollection.Find(filter).Limit(1).SingleAsync();
+            return await _playlistCollection.Find(filter).FirstOrDefaultAsync();
         }
 
         public async Task<long> updateProcess(Process process, string id)
@@ -63,13 +65,19 @@ namespace ProcessAPI.Repository
 
             // return updatedProcess;
 
-            var result = await _playlistCollection.UpdateOneAsync(
-                Builders<Process>.Filter.Eq("Id", id),
-                Builders<Process>.Update.Set(rec => rec, process)
-            );
+            // var result = await _playlistCollection.UpdateOneAsync(
+            //     Builders<Process>.Filter.Eq("Id", id),
+            //     Builders<Process>.Update.Set(rec => rec, process)
+            // );
 
-            if(result.IsAcknowledged) return result.ModifiedCount;
+            // if(result.IsAcknowledged) return result.ModifiedCount;
+            // else return 0;
+
+            var modifiedResult = await _playlistCollection.ReplaceOneAsync(x => x.Id == id, process);
+
+            if(modifiedResult.IsAcknowledged) return modifiedResult.ModifiedCount;
             else return 0;
+
         }
 
     }
