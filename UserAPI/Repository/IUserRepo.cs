@@ -6,7 +6,7 @@ namespace UserAPI.Repository
     {
         Task<List<User>> getAllUsers();
         Task<User> getSingleUser(string id);
-        Task Register(User user);
+        Task<User> Register(User user);
         Task<long> updateUserDetails(User user, string id);
         Task<bool> deleteUser(string id);
 

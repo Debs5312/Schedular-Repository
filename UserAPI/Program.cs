@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using UserAPI.DBConnections;
 using UserAPI.Repository;
 using UserAPI.Utils;
@@ -9,8 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 // Register Mongo as a scoped service
-
-builder.Services.Configure<DBSettings>(builder.Configuration.GetSection("MongoDB"));
+builder.Services.AddDbContext<UserDBContext>(options => 
+{
+    options.UseMongoDB(builder.Configuration.GetConnectionString("DBConn"), "schedularDB");
+});
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 
 // Register Automapper as service
